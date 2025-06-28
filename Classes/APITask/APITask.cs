@@ -26,7 +26,7 @@ namespace MEMOS.Classes.Tasks
             {
                "api/planets",
                "api/people",
-               "api/starships"
+               "api/starship"
             };
 
         public APITask(string Name)           
@@ -42,7 +42,10 @@ namespace MEMOS.Classes.Tasks
             ///planet
             IEnumerable<JsonElement> planet = await FetchData(url, paths[0], GetPlanetQuery(queryParameters, name),true);
             if (!planet.Any())
-                throw new Exception($"Žádná planeta s názvem {name} nenalezena.");
+            { 
+                Console.WriteLine($"Žádná planeta s názvem {name} nenalezena.");
+                return null;
+            }
             planet.First().GetProperty("properties").TryGetProperty("url",out JsonElement planetUrl);
 
             //pilots
@@ -50,7 +53,7 @@ namespace MEMOS.Classes.Tasks
             if (!pilotsFromPlanet.Any())
             {
                 Console.WriteLine("Žádný pilot nenalezen");
-                return "";
+                return null;
             }
 
             //starships
@@ -58,7 +61,7 @@ namespace MEMOS.Classes.Tasks
             if (!starshipsPilotedByPilots.Any())
             {
                 Console.WriteLine("Žádná odpovídající loď nenalezena");
-                return "";
+                return null;
             }
 
             Console.WriteLine($"Lodě pilotované lidmi narozenými na {name}");
@@ -198,7 +201,7 @@ namespace MEMOS.Classes.Tasks
             return exist ? result : new JsonElement { };            
         }
 
-        private List<JsonElement> GetResultList (List<JsonElement> resultList,JsonElement newJson,Boolean isDetail)
+        private void GetResultList (List<JsonElement> resultList,JsonElement newJson,Boolean isDetail)
         {
             List<JsonElement> jsonElements = resultList;
             string propertyName = isDetail ? "result" : "results";
@@ -206,14 +209,13 @@ namespace MEMOS.Classes.Tasks
 
             if (newResults.ValueKind == JsonValueKind.Undefined)
             {
-                return jsonElements;
+                return;
             }
 
             foreach (JsonElement item in newResults.EnumerateArray())
             {
                 jsonElements.Add(item);
             }
-            return jsonElements;
         }
         private static string GetQuery(Dictionary<string, string> queryParameters)
         {

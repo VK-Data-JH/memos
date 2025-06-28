@@ -48,7 +48,7 @@ namespace MEMOS.Classes.Tasks
             }
             while (this.SubsidiariesQueue.Count > 0);
             Console.WriteLine();
-            Console.WriteLine($"Potencionálně nemocní od {name}");
+            Console.WriteLine($"Potencionálně nemocní od osoby {name} \n");
            foreach( var ill in illCrew)
             {
                 Console.WriteLine($"{ill.Value.Name} - {ill.Value.Position}");
@@ -57,13 +57,13 @@ namespace MEMOS.Classes.Tasks
         public void GetSubsidaries(string name)
         {
             GetSubsidiariesQueue(name);
-            Console.WriteLine($"Podřízení {name}");
+            Console.WriteLine($"Podřízení člena posádky {name} \n");
             do
                 {
                     if(this.SubsidiariesQueue.Count>0)
                     {
                         TreeItem subsid = this.SubsidiariesQueue.Dequeue();
-                        Console.WriteLine($"{subsid.Name} - {subsid.Position}- Nadřízený {this.ParentChildData.First(p=>p.Key== subsid.ParentId).Value.Name}");
+                        Console.WriteLine($"{subsid.Name} - {subsid.Position} - Nadřízený {this.ParentChildData.First(p=>p.Key== subsid.ParentId).Value.Name}");
                         GetSubsidiariesQueue(subsid.Name);
                     }
             }
