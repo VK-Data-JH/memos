@@ -26,7 +26,7 @@ namespace MEMOS.Classes.Tasks
             {
                "api/planets",
                "api/people",
-               "api/starship"
+               "api/starships"
             };
 
         public APITask(string Name)           
