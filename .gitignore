@@ -1,0 +1,4 @@
+/Properties/launchSettings.json
+/Docker/**.env
+/.vs
+/bin/Debug
