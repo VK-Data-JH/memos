@@ -2,3 +2,5 @@
 /Docker/**.env
 /.vs
 /bin/Debug
+/obj
+
